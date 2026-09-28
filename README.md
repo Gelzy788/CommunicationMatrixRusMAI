@@ -1,1 +1,2 @@
 # CommunicationMatrixRusMAI
+HelloWorld("print")
