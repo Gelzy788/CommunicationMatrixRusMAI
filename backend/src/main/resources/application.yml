@@ -13,7 +13,7 @@ spring:
     import: optional:file:.env[.properties]
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/${POSTGRES_DB}
+    url: jdbc:postgresql://${POSTGRES_IP}:${POSTGRES_PORT}/${POSTGRES_DB}
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
 
@@ -21,7 +21,6 @@ spring:
     hibernate:
       ddl-auto: validate
     open-in-view: false
-
   flyway:
     baseline-on-migrate: false
     clean-disabled: true
