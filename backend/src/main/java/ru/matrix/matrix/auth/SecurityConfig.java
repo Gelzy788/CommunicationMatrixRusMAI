@@ -39,6 +39,7 @@ public class SecurityConfig {
                                 res.setStatus(HttpServletResponse.SC_OK))
                         .failureHandler((req, res, ex) ->
                                 writeError(res, objectMapper, ErrorCode.INVALID_CREDENTIALS))
+                        .usernameParameter("email")
                         .permitAll()
                 )
                 .exceptionHandling(ex -> ex
