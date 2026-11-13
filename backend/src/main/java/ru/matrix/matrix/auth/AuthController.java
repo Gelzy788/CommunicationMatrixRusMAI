@@ -1,13 +1,14 @@
 package ru.matrix.matrix.auth;
 
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.csrf.CsrfToken;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/auth")
 public class AuthController {
 
     private final AuthService authService;
@@ -16,14 +17,19 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @GetMapping("/api/auth/csrf")
+    @GetMapping("/csrf")
     public CsrfToken getCsrf(CsrfToken token) {
         return token;
     }
 
-    // TODO: Поменять формат возвращаемого response
-//    @PostMapping("/api/auth/register")
-//    public ResponseEntity register(@Valid @RequestBody RegisterRequest registerRequest) {
-//
-//    }
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void register(@Valid @RequestBody RegisterRequest registerRequest) {
+        authService.register(registerRequest);
+    }
+
+    @GetMapping("/me")
+    public String me(@AuthenticationPrincipal UserDetails user) {
+        return user.getUsername();
+    }
 }
