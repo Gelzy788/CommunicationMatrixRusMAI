@@ -15,8 +15,6 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-
     // --- 1. Наши ошибки: throw new ApiException(ErrorCode.EMAIL_TAKEN) ---
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<ErrorResponse> handleApi(ApiException ex) {
@@ -49,7 +47,6 @@ public class GlobalExceptionHandler {
     // --- 5. Всё непредвиденное → INTERNAL_ERROR ---
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnexpected(Exception ex) {
-        log.error("Непредвиденная ошибка", ex);   // подробности — только в лог
         return error(ErrorCode.INTERNAL_ERROR);
     }
 

@@ -22,8 +22,8 @@ public class AuthController {
     }
 
     // TODO: Поменять формат возвращаемого response
-    @PostMapping("/api/auth/register")
-    public ResponseEntity register(@Valid @RequestBody RegisterRequest registerRequest) {
-
-    }
+//    @PostMapping("/api/auth/register")
+//    public ResponseEntity register(@Valid @RequestBody RegisterRequest registerRequest) {
+//
+//    }
 }
