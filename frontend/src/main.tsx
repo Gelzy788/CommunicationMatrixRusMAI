@@ -5,6 +5,4 @@ import './index.css'
 
 import { router } from './app/router'
 
-createRoot(document.getElementById('root')!).render(
-	<RouterProvider router={router} />,
-)
+createRoot(document.getElementById('root')!).render(<RouterProvider router={router} />)
