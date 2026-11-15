@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke-test:
+    name: Backend smoke tests
+    runs-on: ubuntu-latest
+
+    # PostgreSQL для запуска Spring Boot и Flyway
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: matrix_users_database
+          POSTGRES_USER: matrix_user
+          POSTGRES_PASSWORD: ci_test_password
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U matrix_user -d matrix_users_database"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    # Переменные для подключения backend к PostgreSQL
+    env:
+      POSTGRES_DB: matrix_users_database
+      POSTGRES_USER: matrix_user
+      POSTGRES_PASSWORD: ci_test_password
+
+    steps:
+      # 1. Получение исходного кода
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Проверка, что файлы окружения не попали в Git
+      - name: Check for exposed environment files
+        shell: bash
+        run: |
+          if git ls-files | grep -E '(^|/)\.env($|\.)' | grep -vE '(^|/)\.env\.example$'; then
+            echo "ERROR: Environment files must not be committed!"
+            exit 1
+          fi
+
+          echo "No exposed environment files found."
+
+      # 3. Установка Java 21
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      # 4. Запуск smoke-теста
+      - name: Run smoke tests
+        working-directory: backend
+        run: bash ./mvnw -B -Dtest=SmokeTest test
