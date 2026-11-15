@@ -193,6 +193,13 @@
   }
 }
 
+/* Мелкий заголовок: имя в карточке меню и т.п. Одинаковый на мобилке и ПК */
+@utility text-h4 {
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 600;
+}
+
 @utility text-body {
   font-size: 16px;
   line-height: 24px;
