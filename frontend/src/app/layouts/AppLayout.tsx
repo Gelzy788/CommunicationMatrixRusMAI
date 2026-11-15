@@ -5,12 +5,13 @@ import { Header } from './Header'
 
 export function AppLayout() {
   return (
-    <>
+    // Footer прижат к низу даже на пустой странице
+    <div className="flex min-h-dvh flex-col">
       <Header />
-      <main>
+      <main className="flex-1">
         <Outlet />
       </main>
       <Footer />
-    </>
+    </div>
   )
 }
