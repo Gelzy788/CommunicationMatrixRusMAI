@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Коммуникативная матрица</title>
+  <link rel="stylesheet" href="matrix-pdf.css" />
+</head>
+
+<body>
+  <div class="pdf-sheet">
+    <table class="matrix" aria-label="Коммуникативная матрица">
+      <colgroup>
+        <col class="level-column" />
+        <col class="function-column" />
+        <col class="function-column" />
+        <col class="function-column" />
+        <col class="function-column" />
+        <col class="function-column" />
+        <col class="function-column" />
+        <col class="function-column" />
+        <col class="function-column" />
+        <col class="function-column" />
+        <col class="function-column" />
+        <col class="function-column" />
+        <col class="function-column" />
+        <col class="function-column" />
+        <col class="function-column" />
+        <col class="function-column" />
+        <col class="function-column" />
+        <col class="function-column" />
+      </colgroup>
+      <tbody>
+        <!-- Уровень 1 -->
+        <tr>
+          <th scope="row">
+            <div class="level-box">
+              <div class="level-caption">Уровень</div>
+              <div class="level-number">1</div>
+              <div>Ненамеренное поведение</div>
+            </div>
+          </th>
+          <td colspan="1" class="matrix-cell" data-cell-id="L1_A1"
+            th:classappend="${cellsById['L1_A1'] != null and cellsById['L1_A1'].state != null ? #strings.toLowerCase(cellsById['L1_A1'].state.toString()) : 'notused'}">
+            <div class="cell-code">A1</div>
+            <div class="cell-name">Выражает дискомфорт</div>
+          </td>
+          <td colspan="6" class="matrix-cell" data-cell-id="L1_A2"
+            th:classappend="${cellsById['L1_A2'] != null and cellsById['L1_A2'].state != null ? #strings.toLowerCase(cellsById['L1_A2'].state.toString()) : 'notused'}">
+            <div class="cell-code">A2</div>
+            <div class="cell-name">Выражает комфорт</div>
+          </td>
+          <td colspan="2" class="matrix-cell" data-cell-id="L1_A3"
+            th:classappend="${cellsById['L1_A3'] != null and cellsById['L1_A3'].state != null ? #strings.toLowerCase(cellsById['L1_A3'].state.toString()) : 'notused'}">
+            <div class="cell-code">A3</div>
+            <div class="cell-name">Проявляет интерес к другим людям</div>
+          </td>
+          <td class="gap-cell" colspan="8"></td>
+        </tr>
+        <!-- Уровень 2 -->
+        <tr>
+          <th scope="row">
+            <div class="level-box">
+              <div class="level-caption">Уровень</div>
+              <div class="level-number">2</div>
+              <div>Намеренное поведение</div>
+            </div>
+          </th>
+          <td colspan="1" class="matrix-cell" data-cell-id="L2_B1"
+            th:classappend="${cellsById['L2_B1'] != null and cellsById['L2_B1'].state != null ? #strings.toLowerCase(cellsById['L2_B1'].state.toString()) : 'notused'}">
+            <div class="cell-code">B1</div>
+            <div class="cell-name">Протестует</div>
+          </td>
+          <td colspan="3" class="matrix-cell" data-cell-id="L2_B2"
+            th:classappend="${cellsById['L2_B2'] != null and cellsById['L2_B2'].state != null ? #strings.toLowerCase(cellsById['L2_B2'].state.toString()) : 'notused'}">
+            <div class="cell-code">B2</div>
+            <div class="cell-name">Продолжает действие</div>
+          </td>
+          <td colspan="3" class="matrix-cell" data-cell-id="L2_B3"
+            th:classappend="${cellsById['L2_B3'] != null and cellsById['L2_B3'].state != null ? #strings.toLowerCase(cellsById['L2_B3'].state.toString()) : 'notused'}">
+            <div class="cell-code">B3</div>
+            <div class="cell-name">Получает ещё что-либо</div>
+          </td>
+          <td colspan="2" class="matrix-cell" data-cell-id="L2_B4"
+            th:classappend="${cellsById['L2_B4'] != null and cellsById['L2_B4'].state != null ? #strings.toLowerCase(cellsById['L2_B4'].state.toString()) : 'notused'}">
+            <div class="cell-code">B4</div>
+            <div class="cell-name">Привлекает внимание</div>
+          </td>
+          <td class="gap-cell" colspan="8"></td>
+        </tr>
+        <!-- Уровень 3 -->
+        <tr>
+          <th scope="row">
+            <div class="level-box">
+              <div class="level-caption">Уровень</div>
+              <div class="level-number">3</div>
+              <div>Нестандартное общение</div>
+            </div>
+          </th>
+          <td colspan="1" class="matrix-cell" data-cell-id="L3_C1"
+            th:classappend="${cellsById['L3_C1'] != null and cellsById['L3_C1'].state != null ? #strings.toLowerCase(cellsById['L3_C1'].state.toString()) : 'notused'}">
+            <div class="cell-code">C1</div>
+            <div class="cell-name">Отказывается или отвергает</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L3_C2"
+            th:classappend="${cellsById['L3_C2'] != null and cellsById['L3_C2'].state != null ? #strings.toLowerCase(cellsById['L3_C2'].state.toString()) : 'notused'}">
+            <div class="cell-code">C2</div>
+            <div class="cell-name">Просит повторить действие</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L3_C3"
+            th:classappend="${cellsById['L3_C3'] != null and cellsById['L3_C3'].state != null ? #strings.toLowerCase(cellsById['L3_C3'].state.toString()) : 'notused'}">
+            <div class="cell-code">C3</div>
+            <div class="cell-name">Просит новое действие</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L3_C4"
+            th:classappend="${cellsById['L3_C4'] != null and cellsById['L3_C4'].state != null ? #strings.toLowerCase(cellsById['L3_C4'].state.toString()) : 'notused'}">
+            <div class="cell-code">C4</div>
+            <div class="cell-name">Просит ещё предмет</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L3_C5"
+            th:classappend="${cellsById['L3_C5'] != null and cellsById['L3_C5'].state != null ? #strings.toLowerCase(cellsById['L3_C5'].state.toString()) : 'notused'}">
+            <div class="cell-code">C5</div>
+            <div class="cell-name">Делает выбор</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L3_C6"
+            th:classappend="${cellsById['L3_C6'] != null and cellsById['L3_C6'].state != null ? #strings.toLowerCase(cellsById['L3_C6'].state.toString()) : 'notused'}">
+            <div class="cell-code">C6</div>
+            <div class="cell-name">Просит новый предмет</div>
+          </td>
+          <td class="gap-cell" colspan="1"></td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L3_C8"
+            th:classappend="${cellsById['L3_C8'] != null and cellsById['L3_C8'].state != null ? #strings.toLowerCase(cellsById['L3_C8'].state.toString()) : 'notused'}">
+            <div class="cell-code">C8</div>
+            <div class="cell-name">Просит внимания</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L3_C9"
+            th:classappend="${cellsById['L3_C9'] != null and cellsById['L3_C9'].state != null ? #strings.toLowerCase(cellsById['L3_C9'].state.toString()) : 'notused'}">
+            <div class="cell-code">C9</div>
+            <div class="cell-name">Выражает привязанность</div>
+          </td>
+          <td class="gap-cell" colspan="8"></td>
+        </tr>
+        <!-- Уровень 4 -->
+        <tr>
+          <th scope="row">
+            <div class="level-box">
+              <div class="level-caption">Уровень</div>
+              <div class="level-number">4</div>
+              <div>Стандартное общение</div>
+            </div>
+          </th>
+          <td colspan="1" class="matrix-cell" data-cell-id="L4_C1"
+            th:classappend="${cellsById['L4_C1'] != null and cellsById['L4_C1'].state != null ? #strings.toLowerCase(cellsById['L4_C1'].state.toString()) : 'notused'}">
+            <div class="cell-code">C1</div>
+            <div class="cell-name">Отказывается или отвергает</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L4_C2"
+            th:classappend="${cellsById['L4_C2'] != null and cellsById['L4_C2'].state != null ? #strings.toLowerCase(cellsById['L4_C2'].state.toString()) : 'notused'}">
+            <div class="cell-code">C2</div>
+            <div class="cell-name">Просит повторить действие</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L4_C3"
+            th:classappend="${cellsById['L4_C3'] != null and cellsById['L4_C3'].state != null ? #strings.toLowerCase(cellsById['L4_C3'].state.toString()) : 'notused'}">
+            <div class="cell-code">C3</div>
+            <div class="cell-name">Просит новое действие</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L4_C4"
+            th:classappend="${cellsById['L4_C4'] != null and cellsById['L4_C4'].state != null ? #strings.toLowerCase(cellsById['L4_C4'].state.toString()) : 'notused'}">
+            <div class="cell-code">C4</div>
+            <div class="cell-name">Просит ещё предмет</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L4_C5"
+            th:classappend="${cellsById['L4_C5'] != null and cellsById['L4_C5'].state != null ? #strings.toLowerCase(cellsById['L4_C5'].state.toString()) : 'notused'}">
+            <div class="cell-code">C5</div>
+            <div class="cell-name">Делает выбор</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L4_C6"
+            th:classappend="${cellsById['L4_C6'] != null and cellsById['L4_C6'].state != null ? #strings.toLowerCase(cellsById['L4_C6'].state.toString()) : 'notused'}">
+            <div class="cell-code">C6</div>
+            <div class="cell-name">Просит новый предмет</div>
+          </td>
+          <td class="gap-cell" colspan="1"></td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L4_C8"
+            th:classappend="${cellsById['L4_C8'] != null and cellsById['L4_C8'].state != null ? #strings.toLowerCase(cellsById['L4_C8'].state.toString()) : 'notused'}">
+            <div class="cell-code">C8</div>
+            <div class="cell-name">Просит внимания</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L4_C9"
+            th:classappend="${cellsById['L4_C9'] != null and cellsById['L4_C9'].state != null ? #strings.toLowerCase(cellsById['L4_C9'].state.toString()) : 'notused'}">
+            <div class="cell-code">C9</div>
+            <div class="cell-name">Выражает привязанность</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L4_C10"
+            th:classappend="${cellsById['L4_C10'] != null and cellsById['L4_C10'].state != null ? #strings.toLowerCase(cellsById['L4_C10'].state.toString()) : 'notused'}">
+            <div class="cell-code">C10</div>
+            <div class="cell-name">Приветствует людей</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L4_C11"
+            th:classappend="${cellsById['L4_C11'] != null and cellsById['L4_C11'].state != null ? #strings.toLowerCase(cellsById['L4_C11'].state.toString()) : 'notused'}">
+            <div class="cell-code">C11</div>
+            <div class="cell-name">Предлагает или делится</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L4_C12"
+            th:classappend="${cellsById['L4_C12'] != null and cellsById['L4_C12'].state != null ? #strings.toLowerCase(cellsById['L4_C12'].state.toString()) : 'notused'}">
+            <div class="cell-code">C12</div>
+            <div class="cell-name">Обращает внимание другого на что-либо</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L4_C13"
+            th:classappend="${cellsById['L4_C13'] != null and cellsById['L4_C13'].state != null ? #strings.toLowerCase(cellsById['L4_C13'].state.toString()) : 'notused'}">
+            <div class="cell-code">C13</div>
+            <div class="cell-name">Использует вежливые формы общения</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L4_C14"
+            th:classappend="${cellsById['L4_C14'] != null and cellsById['L4_C14'].state != null ? #strings.toLowerCase(cellsById['L4_C14'].state.toString()) : 'notused'}">
+            <div class="cell-code">C14</div>
+            <div class="cell-name">Отвечает «да» и «нет»</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L4_C15"
+            th:classappend="${cellsById['L4_C15'] != null and cellsById['L4_C15'].state != null ? #strings.toLowerCase(cellsById['L4_C15'].state.toString()) : 'notused'}">
+            <div class="cell-code">C15</div>
+            <div class="cell-name">Задаёт вопросы</div>
+          </td>
+          <td class="gap-cell" colspan="2"></td>
+        </tr>
+        <!-- Уровень 5 -->
+        <tr>
+          <th scope="row">
+            <div class="level-box">
+              <div class="level-caption">Уровень</div>
+              <div class="level-number">5</div>
+              <div>Конкретные символы</div>
+            </div>
+          </th>
+          <td colspan="1" class="matrix-cell" data-cell-id="L5_C1"
+            th:classappend="${cellsById['L5_C1'] != null and cellsById['L5_C1'].state != null ? #strings.toLowerCase(cellsById['L5_C1'].state.toString()) : 'notused'}">
+            <div class="cell-code">C1</div>
+            <div class="cell-name">Отказывается или отвергает</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L5_C2"
+            th:classappend="${cellsById['L5_C2'] != null and cellsById['L5_C2'].state != null ? #strings.toLowerCase(cellsById['L5_C2'].state.toString()) : 'notused'}">
+            <div class="cell-code">C2</div>
+            <div class="cell-name">Просит повторить действие</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L5_C3"
+            th:classappend="${cellsById['L5_C3'] != null and cellsById['L5_C3'].state != null ? #strings.toLowerCase(cellsById['L5_C3'].state.toString()) : 'notused'}">
+            <div class="cell-code">C3</div>
+            <div class="cell-name">Просит новое действие</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L5_C4"
+            th:classappend="${cellsById['L5_C4'] != null and cellsById['L5_C4'].state != null ? #strings.toLowerCase(cellsById['L5_C4'].state.toString()) : 'notused'}">
+            <div class="cell-code">C4</div>
+            <div class="cell-name">Просит ещё предмет</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L5_C5"
+            th:classappend="${cellsById['L5_C5'] != null and cellsById['L5_C5'].state != null ? #strings.toLowerCase(cellsById['L5_C5'].state.toString()) : 'notused'}">
+            <div class="cell-code">C5</div>
+            <div class="cell-name">Делает выбор</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L5_C6"
+            th:classappend="${cellsById['L5_C6'] != null and cellsById['L5_C6'].state != null ? #strings.toLowerCase(cellsById['L5_C6'].state.toString()) : 'notused'}">
+            <div class="cell-code">C6</div>
+            <div class="cell-name">Просит новый предмет</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L5_C7"
+            th:classappend="${cellsById['L5_C7'] != null and cellsById['L5_C7'].state != null ? #strings.toLowerCase(cellsById['L5_C7'].state.toString()) : 'notused'}">
+            <div class="cell-code">C7</div>
+            <div class="cell-name">Просит отсутствующий предмет</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L5_C8"
+            th:classappend="${cellsById['L5_C8'] != null and cellsById['L5_C8'].state != null ? #strings.toLowerCase(cellsById['L5_C8'].state.toString()) : 'notused'}">
+            <div class="cell-code">C8</div>
+            <div class="cell-name">Просит внимания</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L5_C9"
+            th:classappend="${cellsById['L5_C9'] != null and cellsById['L5_C9'].state != null ? #strings.toLowerCase(cellsById['L5_C9'].state.toString()) : 'notused'}">
+            <div class="cell-code">C9</div>
+            <div class="cell-name">Выражает привязанность</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L5_C10"
+            th:classappend="${cellsById['L5_C10'] != null and cellsById['L5_C10'].state != null ? #strings.toLowerCase(cellsById['L5_C10'].state.toString()) : 'notused'}">
+            <div class="cell-code">C10</div>
+            <div class="cell-name">Приветствует людей</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L5_C11"
+            th:classappend="${cellsById['L5_C11'] != null and cellsById['L5_C11'].state != null ? #strings.toLowerCase(cellsById['L5_C11'].state.toString()) : 'notused'}">
+            <div class="cell-code">C11</div>
+            <div class="cell-name">Предлагает или делится</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L5_C12"
+            th:classappend="${cellsById['L5_C12'] != null and cellsById['L5_C12'].state != null ? #strings.toLowerCase(cellsById['L5_C12'].state.toString()) : 'notused'}">
+            <div class="cell-code">C12</div>
+            <div class="cell-name">Обращает внимание другого на что-либо</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L5_C13"
+            th:classappend="${cellsById['L5_C13'] != null and cellsById['L5_C13'].state != null ? #strings.toLowerCase(cellsById['L5_C13'].state.toString()) : 'notused'}">
+            <div class="cell-code">C13</div>
+            <div class="cell-name">Использует вежливые формы общения</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L5_C14"
+            th:classappend="${cellsById['L5_C14'] != null and cellsById['L5_C14'].state != null ? #strings.toLowerCase(cellsById['L5_C14'].state.toString()) : 'notused'}">
+            <div class="cell-code">C14</div>
+            <div class="cell-name">Отвечает «да» и «нет»</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L5_C15"
+            th:classappend="${cellsById['L5_C15'] != null and cellsById['L5_C15'].state != null ? #strings.toLowerCase(cellsById['L5_C15'].state.toString()) : 'notused'}">
+            <div class="cell-code">C15</div>
+            <div class="cell-name">Задаёт вопросы</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L5_C16"
+            th:classappend="${cellsById['L5_C16'] != null and cellsById['L5_C16'].state != null ? #strings.toLowerCase(cellsById['L5_C16'].state.toString()) : 'notused'}">
+            <div class="cell-code">C16</div>
+            <div class="cell-name">Называет предметы или людей</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L5_C17"
+            th:classappend="${cellsById['L5_C17'] != null and cellsById['L5_C17'].state != null ? #strings.toLowerCase(cellsById['L5_C17'].state.toString()) : 'notused'}">
+            <div class="cell-code">C17</div>
+            <div class="cell-name">Комментирует</div>
+          </td>
+        </tr>
+        <!-- Уровень 6 -->
+        <tr>
+          <th scope="row">
+            <div class="level-box">
+              <div class="level-caption">Уровень</div>
+              <div class="level-number">6</div>
+              <div>Абстрактные символы</div>
+            </div>
+          </th>
+          <td colspan="1" class="matrix-cell" data-cell-id="L6_C1"
+            th:classappend="${cellsById['L6_C1'] != null and cellsById['L6_C1'].state != null ? #strings.toLowerCase(cellsById['L6_C1'].state.toString()) : 'notused'}">
+            <div class="cell-code">C1</div>
+            <div class="cell-name">Отказывается или отвергает</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L6_C2"
+            th:classappend="${cellsById['L6_C2'] != null and cellsById['L6_C2'].state != null ? #strings.toLowerCase(cellsById['L6_C2'].state.toString()) : 'notused'}">
+            <div class="cell-code">C2</div>
+            <div class="cell-name">Просит повторить действие</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L6_C3"
+            th:classappend="${cellsById['L6_C3'] != null and cellsById['L6_C3'].state != null ? #strings.toLowerCase(cellsById['L6_C3'].state.toString()) : 'notused'}">
+            <div class="cell-code">C3</div>
+            <div class="cell-name">Просит новое действие</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L6_C4"
+            th:classappend="${cellsById['L6_C4'] != null and cellsById['L6_C4'].state != null ? #strings.toLowerCase(cellsById['L6_C4'].state.toString()) : 'notused'}">
+            <div class="cell-code">C4</div>
+            <div class="cell-name">Просит ещё предмет</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L6_C5"
+            th:classappend="${cellsById['L6_C5'] != null and cellsById['L6_C5'].state != null ? #strings.toLowerCase(cellsById['L6_C5'].state.toString()) : 'notused'}">
+            <div class="cell-code">C5</div>
+            <div class="cell-name">Делает выбор</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L6_C6"
+            th:classappend="${cellsById['L6_C6'] != null and cellsById['L6_C6'].state != null ? #strings.toLowerCase(cellsById['L6_C6'].state.toString()) : 'notused'}">
+            <div class="cell-code">C6</div>
+            <div class="cell-name">Просит новый предмет</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L6_C7"
+            th:classappend="${cellsById['L6_C7'] != null and cellsById['L6_C7'].state != null ? #strings.toLowerCase(cellsById['L6_C7'].state.toString()) : 'notused'}">
+            <div class="cell-code">C7</div>
+            <div class="cell-name">Просит отсутствующий предмет</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L6_C8"
+            th:classappend="${cellsById['L6_C8'] != null and cellsById['L6_C8'].state != null ? #strings.toLowerCase(cellsById['L6_C8'].state.toString()) : 'notused'}">
+            <div class="cell-code">C8</div>
+            <div class="cell-name">Просит внимания</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L6_C9"
+            th:classappend="${cellsById['L6_C9'] != null and cellsById['L6_C9'].state != null ? #strings.toLowerCase(cellsById['L6_C9'].state.toString()) : 'notused'}">
+            <div class="cell-code">C9</div>
+            <div class="cell-name">Выражает привязанность</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L6_C10"
+            th:classappend="${cellsById['L6_C10'] != null and cellsById['L6_C10'].state != null ? #strings.toLowerCase(cellsById['L6_C10'].state.toString()) : 'notused'}">
+            <div class="cell-code">C10</div>
+            <div class="cell-name">Приветствует людей</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L6_C11"
+            th:classappend="${cellsById['L6_C11'] != null and cellsById['L6_C11'].state != null ? #strings.toLowerCase(cellsById['L6_C11'].state.toString()) : 'notused'}">
+            <div class="cell-code">C11</div>
+            <div class="cell-name">Предлагает или делится</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L6_C12"
+            th:classappend="${cellsById['L6_C12'] != null and cellsById['L6_C12'].state != null ? #strings.toLowerCase(cellsById['L6_C12'].state.toString()) : 'notused'}">
+            <div class="cell-code">C12</div>
+            <div class="cell-name">Обращает внимание другого на что-либо</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L6_C13"
+            th:classappend="${cellsById['L6_C13'] != null and cellsById['L6_C13'].state != null ? #strings.toLowerCase(cellsById['L6_C13'].state.toString()) : 'notused'}">
+            <div class="cell-code">C13</div>
+            <div class="cell-name">Использует вежливые формы общения</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L6_C14"
+            th:classappend="${cellsById['L6_C14'] != null and cellsById['L6_C14'].state != null ? #strings.toLowerCase(cellsById['L6_C14'].state.toString()) : 'notused'}">
+            <div class="cell-code">C14</div>
+            <div class="cell-name">Отвечает «да» и «нет»</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L6_C15"
+            th:classappend="${cellsById['L6_C15'] != null and cellsById['L6_C15'].state != null ? #strings.toLowerCase(cellsById['L6_C15'].state.toString()) : 'notused'}">
+            <div class="cell-code">C15</div>
+            <div class="cell-name">Задаёт вопросы</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L6_C16"
+            th:classappend="${cellsById['L6_C16'] != null and cellsById['L6_C16'].state != null ? #strings.toLowerCase(cellsById['L6_C16'].state.toString()) : 'notused'}">
+            <div class="cell-code">C16</div>
+            <div class="cell-name">Называет предметы или людей</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L6_C17"
+            th:classappend="${cellsById['L6_C17'] != null and cellsById['L6_C17'].state != null ? #strings.toLowerCase(cellsById['L6_C17'].state.toString()) : 'notused'}">
+            <div class="cell-code">C17</div>
+            <div class="cell-name">Комментирует</div>
+          </td>
+        </tr>
+        <!-- Уровень 7 -->
+        <tr>
+          <th scope="row">
+            <div class="level-box">
+              <div class="level-caption">Уровень</div>
+              <div class="level-number">7</div>
+              <div>Язык</div>
+            </div>
+          </th>
+          <td colspan="1" class="matrix-cell" data-cell-id="L7_C1"
+            th:classappend="${cellsById['L7_C1'] != null and cellsById['L7_C1'].state != null ? #strings.toLowerCase(cellsById['L7_C1'].state.toString()) : 'notused'}">
+            <div class="cell-code">C1</div>
+            <div class="cell-name">Отказывается или отвергает</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L7_C2"
+            th:classappend="${cellsById['L7_C2'] != null and cellsById['L7_C2'].state != null ? #strings.toLowerCase(cellsById['L7_C2'].state.toString()) : 'notused'}">
+            <div class="cell-code">C2</div>
+            <div class="cell-name">Просит повторить действие</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L7_C3"
+            th:classappend="${cellsById['L7_C3'] != null and cellsById['L7_C3'].state != null ? #strings.toLowerCase(cellsById['L7_C3'].state.toString()) : 'notused'}">
+            <div class="cell-code">C3</div>
+            <div class="cell-name">Просит новое действие</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L7_C4"
+            th:classappend="${cellsById['L7_C4'] != null and cellsById['L7_C4'].state != null ? #strings.toLowerCase(cellsById['L7_C4'].state.toString()) : 'notused'}">
+            <div class="cell-code">C4</div>
+            <div class="cell-name">Просит ещё предмет</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L7_C5"
+            th:classappend="${cellsById['L7_C5'] != null and cellsById['L7_C5'].state != null ? #strings.toLowerCase(cellsById['L7_C5'].state.toString()) : 'notused'}">
+            <div class="cell-code">C5</div>
+            <div class="cell-name">Делает выбор</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L7_C6"
+            th:classappend="${cellsById['L7_C6'] != null and cellsById['L7_C6'].state != null ? #strings.toLowerCase(cellsById['L7_C6'].state.toString()) : 'notused'}">
+            <div class="cell-code">C6</div>
+            <div class="cell-name">Просит новый предмет</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L7_C7"
+            th:classappend="${cellsById['L7_C7'] != null and cellsById['L7_C7'].state != null ? #strings.toLowerCase(cellsById['L7_C7'].state.toString()) : 'notused'}">
+            <div class="cell-code">C7</div>
+            <div class="cell-name">Просит отсутствующий предмет</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L7_C8"
+            th:classappend="${cellsById['L7_C8'] != null and cellsById['L7_C8'].state != null ? #strings.toLowerCase(cellsById['L7_C8'].state.toString()) : 'notused'}">
+            <div class="cell-code">C8</div>
+            <div class="cell-name">Просит внимания</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L7_C9"
+            th:classappend="${cellsById['L7_C9'] != null and cellsById['L7_C9'].state != null ? #strings.toLowerCase(cellsById['L7_C9'].state.toString()) : 'notused'}">
+            <div class="cell-code">C9</div>
+            <div class="cell-name">Выражает привязанность</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L7_C10"
+            th:classappend="${cellsById['L7_C10'] != null and cellsById['L7_C10'].state != null ? #strings.toLowerCase(cellsById['L7_C10'].state.toString()) : 'notused'}">
+            <div class="cell-code">C10</div>
+            <div class="cell-name">Приветствует людей</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L7_C11"
+            th:classappend="${cellsById['L7_C11'] != null and cellsById['L7_C11'].state != null ? #strings.toLowerCase(cellsById['L7_C11'].state.toString()) : 'notused'}">
+            <div class="cell-code">C11</div>
+            <div class="cell-name">Предлагает или делится</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L7_C12"
+            th:classappend="${cellsById['L7_C12'] != null and cellsById['L7_C12'].state != null ? #strings.toLowerCase(cellsById['L7_C12'].state.toString()) : 'notused'}">
+            <div class="cell-code">C12</div>
+            <div class="cell-name">Обращает внимание другого на что-либо</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L7_C13"
+            th:classappend="${cellsById['L7_C13'] != null and cellsById['L7_C13'].state != null ? #strings.toLowerCase(cellsById['L7_C13'].state.toString()) : 'notused'}">
+            <div class="cell-code">C13</div>
+            <div class="cell-name">Использует вежливые формы общения</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L7_C14"
+            th:classappend="${cellsById['L7_C14'] != null and cellsById['L7_C14'].state != null ? #strings.toLowerCase(cellsById['L7_C14'].state.toString()) : 'notused'}">
+            <div class="cell-code">C14</div>
+            <div class="cell-name">Отвечает «да» и «нет»</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L7_C15"
+            th:classappend="${cellsById['L7_C15'] != null and cellsById['L7_C15'].state != null ? #strings.toLowerCase(cellsById['L7_C15'].state.toString()) : 'notused'}">
+            <div class="cell-code">C15</div>
+            <div class="cell-name">Задаёт вопросы</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L7_C16"
+            th:classappend="${cellsById['L7_C16'] != null and cellsById['L7_C16'].state != null ? #strings.toLowerCase(cellsById['L7_C16'].state.toString()) : 'notused'}">
+            <div class="cell-code">C16</div>
+            <div class="cell-name">Называет предметы или людей</div>
+          </td>
+          <td colspan="1" class="matrix-cell" data-cell-id="L7_C17"
+            th:classappend="${cellsById['L7_C17'] != null and cellsById['L7_C17'].state != null ? #strings.toLowerCase(cellsById['L7_C17'].state.toString()) : 'notused'}">
+            <div class="cell-code">C17</div>
+            <div class="cell-name">Комментирует</div>
+          </td>
+        </tr>
+        <tr class="matrix-groups">
+          <td class="corner"></td>
+          <td colspan="1">Отказ</td>
+          <td colspan="6">Получение</td>
+          <td colspan="7">Социальное взаимодействие</td>
+          <td colspan="3">Информация</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="legend" aria-label="Легенда состояний">
+      <div class="legend-row"><span class="legend-swatch notused"></span>Не используется</div>
+      <div class="legend-row"><span class="legend-swatch emerging"></span>На стадии становления</div>
+      <div class="legend-row"><span class="legend-swatch mastered"></span>Усвоено</div>
+      <div class="legend-row"><span class="legend-swatch surpassed"></span>Уже не используется</div>
+    </div>
+  </div>
+</body>
+
+</html>
