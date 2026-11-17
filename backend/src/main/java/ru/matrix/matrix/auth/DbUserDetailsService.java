@@ -20,8 +20,6 @@ public class DbUserDetailsService implements UserDetailsService {
         UserEntity user = userRepository.findByEmail(email.trim().toLowerCase())
                 .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден: " + email));
 
-        return User.withUsername(user.getEmail())
-                .password(user.getHashPassword())
-                .build();
+        return new AuthUser(user.getParentId(), user.getEmail(), user.getHashPassword());
     }
 }
