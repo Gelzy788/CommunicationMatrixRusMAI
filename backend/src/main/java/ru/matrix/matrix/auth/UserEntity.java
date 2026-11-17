@@ -1,11 +1,6 @@
 package ru.matrix.matrix.auth;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -28,7 +23,8 @@ public class UserEntity {
     @Column(name = "user_agreement", nullable = false)
     private boolean userAgreement;
 
-    protected UserEntity() {}
+    protected UserEntity() {
+    }
 
     public UserEntity(String userFullname, String email, String hashPassword, boolean userAgreement) {
         this.userFullname = userFullname;
@@ -37,9 +33,23 @@ public class UserEntity {
         this.userAgreement = userAgreement;
     }
 
-    public Long getParentId() { return parentId; }
-    public String getUserFullname() { return userFullname; }
-    public String getEmail() { return email; }
-    public String getHashPassword() { return hashPassword; }
-    public boolean isUserAgreement() { return userAgreement; }
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public String getUserFullname() {
+        return userFullname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getHashPassword() {
+        return hashPassword;
+    }
+
+    public boolean isUserAgreement() {
+        return userAgreement;
+    }
 }

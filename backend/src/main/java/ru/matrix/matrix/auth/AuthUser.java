@@ -20,14 +20,32 @@ public class AuthUser implements UserDetails {
         this.passwordHash = passwordHash;
     }
 
-    public Long getId() { return id; }
+    public Long getId() {
+        return id;
+    }
 
-    @Override public String getUsername() { return email; }
-    @Override public String getPassword() { return passwordHash; }
-    @Override public Collection<? extends GrantedAuthority> getAuthorities() { return List.of(); }
+    @Override
+    public String getUsername() {
+        return email;
+    }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public String getPassword() {
+        return passwordHash;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public boolean equals(Object o) {
         return o instanceof AuthUser other && email.equals(other.email);
     }
-    @Override public int hashCode() { return email.hashCode(); }
+
+    @Override
+    public int hashCode() {
+        return email.hashCode();
+    }
 }

@@ -1,6 +1,6 @@
 package ru.matrix.matrix.common;
 
-public class ApiException extends RuntimeException{
+public class ApiException extends RuntimeException {
     private final ErrorCode errorCode;
 
     public ApiException(ErrorCode errorCode) {
@@ -8,5 +8,7 @@ public class ApiException extends RuntimeException{
         this.errorCode = errorCode;
     }
 
-    public ErrorCode getErrorCode() { return errorCode; }
+    public ErrorCode getErrorCode() {
+        return errorCode;
+    }
 }

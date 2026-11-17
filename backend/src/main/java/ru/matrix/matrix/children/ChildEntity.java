@@ -1,7 +1,6 @@
 package ru.matrix.matrix.children;
 
 import jakarta.persistence.*;
-import ru.matrix.matrix.auth.UserEntity;
 
 import java.time.LocalDate;
 

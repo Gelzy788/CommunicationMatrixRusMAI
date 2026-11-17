@@ -10,4 +10,5 @@ import java.time.LocalDate;
 public record ChildRequest(
         @NotBlank @Size(max = 100) String name,
         @NotNull @Past LocalDate birthDate
-) {}
+) {
+}

@@ -1,13 +1,10 @@
 package ru.matrix.matrix.auth;
 
-import org.apache.catalina.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.matrix.matrix.common.ApiException;
 import ru.matrix.matrix.common.ErrorCode;
-
-import java.util.Locale;
 
 @Service
 public class AuthService {
@@ -15,7 +12,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
 
     public AuthService(UserRepository userRepository,
-                       PasswordEncoder passwordEncoder){
+                       PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }

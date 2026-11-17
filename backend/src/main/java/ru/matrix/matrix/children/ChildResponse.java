@@ -1,7 +1,5 @@
 package ru.matrix.matrix.children;
 
-import ru.matrix.matrix.children.ChildEntity;
-
 import java.time.LocalDate;
 
 public record ChildResponse(Long id, String name, LocalDate birthDate) {

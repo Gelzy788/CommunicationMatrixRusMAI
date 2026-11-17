@@ -1,9 +1,7 @@
 package ru.matrix.matrix.children;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.matrix.matrix.auth.AuthUser;
 import ru.matrix.matrix.common.ApiException;
 import ru.matrix.matrix.common.ErrorCode;
 
