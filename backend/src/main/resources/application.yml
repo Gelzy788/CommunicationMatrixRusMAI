@@ -1,9 +1,19 @@
+server:
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        secure: false
+        same-site: lax
+      tracking-modes: cookie
+  port: 8080
+
 spring:
   config:
     import: optional:file:.env[.properties]
 
   datasource:
-    url: jdbc:postgresql://localhost:5433/${POSTGRES_DB}
+    url: jdbc:postgresql://${POSTGRES_IP}:${POSTGRES_PORT}/${POSTGRES_DB}
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
 
@@ -11,7 +21,11 @@ spring:
     hibernate:
       ddl-auto: validate
     open-in-view: false
-
   flyway:
     baseline-on-migrate: false
     clean-disabled: true
+
+  session:
+    jdbc:
+      initialize-schema: always
+    timeout: 30m
