@@ -5,6 +5,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
@@ -23,26 +24,36 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({
             MethodArgumentNotValidException.class,        // не прошла проверка @Valid
             HttpMessageNotReadableException.class,        // тело не JSON или JSON сломан
-            MethodArgumentTypeMismatchException.class,    // /api/children/abc вместо числа
             MissingServletRequestParameterException.class // нет обязательного параметра
     })
     public ResponseEntity<ErrorResponse> handleValidation(Exception ex) {
         return error(ErrorCode.VALIDATION_ERROR);
     }
 
-    // --- 3. Нет такого адреса → NOT_FOUND ---
+    // --- 3. Значение не подходит по типу ---
+    // В пути (/api/questionnaires/abc, /api/children/abc) → такого объекта нет → NOT_FOUND
+    // В query-параметре (?limit=abc) → кривой запрос → VALIDATION_ERROR
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        if (ex.getParameter().hasParameterAnnotation(PathVariable.class)) {
+            return error(ErrorCode.NOT_FOUND);
+        }
+        return error(ErrorCode.VALIDATION_ERROR);
+    }
+
+    // --- 4. Нет такого адреса → NOT_FOUND ---
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<ErrorResponse> handleNoResource(NoResourceFoundException ex) {
         return error(ErrorCode.NOT_FOUND);
     }
 
-    // --- 4. Слишком большое тело (загрузка файлов) → PAYLOAD_TOO_LARGE ---
+    // --- 5. Слишком большое тело (загрузка файлов) → PAYLOAD_TOO_LARGE ---
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<ErrorResponse> handleTooLarge(MaxUploadSizeExceededException ex) {
         return error(ErrorCode.PAYLOAD_TOO_LARGE);
     }
 
-    // --- 5. Всё непредвиденное → INTERNAL_ERROR ---
+    // --- 6. Всё непредвиденное → INTERNAL_ERROR ---
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnexpected(Exception ex) {
         return error(ErrorCode.INTERNAL_ERROR);

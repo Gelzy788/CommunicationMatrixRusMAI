@@ -29,3 +29,6 @@ spring:
     jdbc:
       initialize-schema: always
     timeout: 30m
+
+questionnaire:
+  questions_file: "classpath:QuestionsData.json"

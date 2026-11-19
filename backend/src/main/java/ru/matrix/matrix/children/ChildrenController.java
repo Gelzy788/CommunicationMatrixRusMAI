@@ -30,7 +30,8 @@ public class ChildrenController {
     }
 
     @GetMapping("/{childId}")
-    public ChildResponse getChild(@AuthenticationPrincipal AuthUser user, @PathVariable Long childId) {
+    public ChildResponse getChild(@AuthenticationPrincipal AuthUser user,
+                                  @PathVariable Long childId) {
         return childrenService.getChild(user.getId(), childId);
     }
 
