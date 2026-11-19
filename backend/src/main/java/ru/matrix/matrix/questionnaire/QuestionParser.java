@@ -1,34 +1,22 @@
 package ru.matrix.matrix.questionnaire;
 
 import org.springframework.stereotype.Component;
+import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.ObjectMapper;
-
-import java.io.IOException;
-import java.io.InputStream;
+import tools.jackson.databind.ObjectReader;
 
 @Component
 public class QuestionParser {
 
-    private final ObjectMapper objectMapper;
+    private final ObjectReader reader;
 
-    public QuestionParser() {
-        this.objectMapper = new ObjectMapper();
+    public QuestionParser(ObjectMapper objectMapper) {
+        this.reader = objectMapper
+                .readerFor(CommunicationMatrix.class)
+                .without(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     }
 
-    public CommunicationMatrix parse(String fileName) throws IOException {
-
-        InputStream inputStream = getClass()
-                .getClassLoader()
-                .getResourceAsStream(fileName);
-
-        if (inputStream == null) {
-            throw new IllegalArgumentException(
-                    "File not found: " + fileName
-            );
-        }
-
-        try (inputStream) {
-            return objectMapper.readValue(inputStream, CommunicationMatrix.class);
-        }
+    public CommunicationMatrix parse(byte[] json) {
+        return reader.readValue(json);
     }
 }
