@@ -31,4 +31,4 @@ spring:
     timeout: 30m
 
 questionnaire:
-  questions_file: "QuestionsData.json"
+  questions_file: "classpath:QuestionsData.json"

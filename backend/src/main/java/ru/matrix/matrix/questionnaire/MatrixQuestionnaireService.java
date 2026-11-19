@@ -12,14 +12,14 @@ import java.util.HexFormat;
 import java.util.Map;
 
 @Service
-public class QuestionnaireService {
+public class MatrixQuestionnaireService {
     private final CommunicationMatrix communicationMatrix;
     private final Map<String, Question> questionById;
     private final byte[] questionsJson;
     private final String etag;
 
-    public QuestionnaireService(QuestionParser parser,
-                                @Value("${questionnaire.questions_file}")
+    public MatrixQuestionnaireService(QuestionParser parser,
+                                      @Value("${questionnaire.questions_file}")
                                 Resource file) throws IOException {
         this.questionsJson = file.getContentAsByteArray();
         this.communicationMatrix = parser.parse(questionsJson);
@@ -61,11 +61,7 @@ public class QuestionnaireService {
         return communicationMatrix;
     }
 
-    public String getEtag() {
-        return etag;
-    }
-
-    public byte[] getQuestionsJson() {
-        return questionsJson;
+    public QuestionnaireFile getFile() {
+        return new QuestionnaireFile(questionsJson, etag);
     }
 }
