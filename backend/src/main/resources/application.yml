@@ -7,6 +7,8 @@ server:
         same-site: lax
       tracking-modes: cookie
   port: 8080
+  # Доверять X-Forwarded-* от nginx: тогда request.isSecure() = true за NPM
+  forward-headers-strategy: native
 
 spring:
   config:

@@ -31,8 +31,29 @@ services:
       POSTGRES_PORT: 5432
       COOKIE_SECURE: "true"
       JAVA_TOOL_OPTIONS: -XX:MaxRAMPercentage=75
+    # Только localhost, для отладки на самом сервере. Снаружи бэк
+    # доступен только через nginx (/api/...).
     ports:
       - "127.0.0.1:8080:8080"
+
+  nginx:
+    build:
+      context: ./frontend
+      dockerfile: ../deploy/nginx/Dockerfile
+      additional_contexts:
+        nginx-config: ./deploy/nginx
+    image: communication-matrix-nginx:dev
+    container_name: matrix_nginx
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NGINX_SERVER_NAME: ${NGINX_SERVER_NAME:-_}
+      NGINX_CLIENT_MAX_BODY_SIZE: ${NGINX_CLIENT_MAX_BODY_SIZE:-10m}
+    # Единственный порт приложения, который смотрит наружу. На него проксирует NPM.
+    # Адрес и порт берутся из .env в корне (см. .env.example).
+    ports:
+      - "${NGINX_BIND:-127.0.0.1}:${NGINX_PORT:-8081}:80"
 
 volumes:
   matrix_users_data:
