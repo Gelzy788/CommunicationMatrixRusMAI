@@ -1,0 +1,56 @@
+name: Postman API Tests
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: ${{ vars.ENABLE_CONTRACT_TESTS == 'true' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate isolated HTTPS test endpoint
+        env:
+          API_BASE_URL: ${{ vars.API_BASE_URL }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+        shell: bash
+        run: |
+          if [[ ! "$API_BASE_URL" =~ ^https://[^/]+ ]]; then
+            echo "API_BASE_URL must be an HTTPS URL" >&2
+            exit 1
+          fi
+          if [[ -z "$TEST_PASSWORD" ]]; then
+            echo "TEST_PASSWORD secret is required" >&2
+            exit 1
+          fi
+          echo "Run only against an isolated disposable test server, never production."
+
+      - name: Install Newman
+        run: npm install --global newman
+
+      - name: Execute collection
+        env:
+          API_BASE_URL: ${{ vars.API_BASE_URL }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+        shell: bash
+        run: |
+          newman run backend/postman-tests/api-tests-ci.json \
+            --env-var "baseUrl=$API_BASE_URL" \
+            --env-var "password=$TEST_PASSWORD" \
+            --reporters cli,junit \
+            --reporter-junit-export newman-results.xml \
+            --timeout-request 15000
+
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-junit-results
+          path: newman-results.xml
+          if-no-files-found: ignore

@@ -1,0 +1,916 @@
+{
+  "info": {
+    "_postman_id": "ddc4b9a4-d239-46d3-b9c7-68b8ffaec00d",
+    "name": "API Tests",
+    "description": "Проверки API.\n\nУказать:  \nbaseUrl  \nтестовые email/password  \nсуществующие идентификаторы.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "60148788",
+    "_collection_link": "https://go.postman.co/collection/60148788-ddc4b9a4-d239-46d3-b9c7-68b8ffaec00d?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "01 Auth",
+      "item": [
+        {
+          "name": "Получить CSRF",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"CSRF request successful\", () => {\n    pm.response.to.have.status(200);\n});\n\nconst response = pm.response.json();\n\npm.test(\"CSRF token exists\", () => {\n    pm.expect(response.csrfToken).to.be.a(\"string\");\n    pm.expect(response.csrfToken).to.not.be.empty;\n});\n\npm.collectionVariables.set(\n    \"csrfToken\",\n    response.csrfToken\n);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/csrf",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "csrf"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Регистрация — успех",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "\npm.test(\"HTTP 201\", () => {\n    pm.response.to.have.status(201);\n});\n\nconst response = pm.response.json();\n\npm.test(\"Поля пользователя\", () => {\n    const user = response.user || response;\n\n    ['id', 'email', 'fullName'].forEach((key) => {\n        pm.expect(user).to.have.property(key);\n    });\n\n    pm.expect(user.email).to.be.a(\"string\");\n});\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "{{csrfHeader}}",
+                "value": "{{csrfToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\",\n  \"fullName\": \"{{fullName}}\",\n  \"consentAccepted\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Осторожно: меняет данные. Заполните переменные и включите запрос вручную."
+          },
+          "response": []
+        },
+        {
+          "name": "Регистрация — согласие false",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "\npm.test(\"HTTP 400\", () => {\n    pm.response.to.have.status(400);\n});\n\nconst EXPECTED_CODE = \"VALIDATION_ERROR\";\nconst response = pm.response.json();\n\npm.test(\"Формат ошибки\", () => {\n    pm.expect(response).to.have.property(\"code\");\n    pm.expect(response.code).to.eql(EXPECTED_CODE);\n\n    pm.expect(response).to.have.property(\"message\");\n    pm.expect(response.message).to.be.a(\"string\");\n});\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "{{csrfHeader}}",
+                "value": "{{csrfToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\",\n  \"fullName\": \"{{fullName}}\",\n  \"consentAccepted\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Осторожно: меняет данные. "
+          },
+          "response": []
+        },
+        {
+          "name": "Регистрация — короткий пароль",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "\npm.test(\"HTTP 400\", () => {\n    pm.response.to.have.status(400);\n});\n\nconst EXPECTED_CODE = \"VALIDATION_ERROR\";\nconst response = pm.response.json();\n\npm.test(\"Формат ошибки\", () => {\n    pm.expect(response).to.have.property(\"code\");\n    pm.expect(response.code).to.eql(EXPECTED_CODE);\n\n    pm.expect(response).to.have.property(\"message\");\n    pm.expect(response.message).to.be.a(\"string\");\n});\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "{{csrfHeader}}",
+                "value": "{{csrfToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"1234567\",\n  \"fullName\": \"{{fullName}}\",\n  \"consentAccepted\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Осторожно: меняет данные. "
+          },
+          "response": []
+        },
+        {
+          "name": "Регистрация — некорректный email",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => {\n    pm.response.to.have.status(400);\n});\n\nconst EXPECTED_CODE = \"VALIDATION_ERROR\";\nconst response = pm.response.json();\n\npm.test(\"Формат ошибки\", () => {\n    pm.expect(response).to.have.property(\"code\");\n    pm.expect(response.code).to.eql(EXPECTED_CODE);\n\n    pm.expect(response).to.have.property(\"message\");\n    pm.expect(response.message).to.be.a(\"string\");\n});\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "{{csrfHeader}}",
+                "value": "{{csrfToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"not-an-email\",\n  \"password\": \"{{password}}\",\n  \"fullName\": \"{{fullName}}\",\n  \"consentAccepted\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Осторожно: меняет данные. "
+          },
+          "response": []
+        },
+        {
+          "name": "Вход — успех",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => {\n    pm.response.to.have.status(200);\n});\n\npm.test(\"Сессионная cookie\", () => {\n    const cookie = pm.response.headers.get(\"Set-Cookie\");\n\n    pm.expect(cookie).to.exist;\n});\n\n// TODO: уточнить форму успешного ответа login."
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "{{csrfHeader}}",
+                "value": "{{csrfToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Осторожно: меняет данные. "
+          },
+          "response": []
+        },
+        {
+          "name": "Вход — неверный пароль",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 401\", () => {\n    pm.response.to.have.status(401);\n});\n\nconst EXPECTED_CODE = \"INVALID_CREDENTIALS\";\nconst response = pm.response.json();\n\npm.test(\"Формат ошибки\", () => {\n    pm.expect(response).to.have.property(\"code\");\n    pm.expect(response.code).to.eql(EXPECTED_CODE);\n\n    pm.expect(response).to.have.property(\"message\");\n    pm.expect(response.message).to.be.a(\"string\");\n});\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "{{csrfHeader}}",
+                "value": "{{csrfToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"wrong-password-123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Осторожно: меняет данные. "
+          },
+          "response": []
+        },
+        {
+          "name": "Текущий пользователь",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => {\n    pm.response.to.have.status(200);\n});\n\nconst response = pm.response.json();\n\npm.test(\"Поля пользователя\", () => {\n    const user = response.user || response;\n\n    [\"id\", \"email\", \"fullName\"].forEach((key) => {\n        pm.expect(user).to.have.property(key);\n    });\n\n    pm.expect(user.email).to.be.a(\"string\");\n});\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Выход",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => {\n    pm.response.to.have.status(200);\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "{{csrfHeader}}",
+                "value": "{{csrfToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "logout"
+              ]
+            },
+            "description": "Осторожно: меняет данные.  Заполните переменные и включите запрос вручную."
+          },
+          "response": []
+        },
+        {
+          "name": "Удаление аккаунта",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => {\n    pm.response.to.have.status(200);\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "{{csrfHeader}}",
+                "value": "{{csrfToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password\": \"{{password}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            },
+            "description": "Осторожно: меняет данные.  Заполните переменные и включите запрос вручную."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "02 Children",
+      "item": [
+        {
+          "name": "Список детей",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => {\n    pm.response.to.have.status(200);\n});\n\nconst response = pm.response.json();\n\npm.test(\"Список детей\", () => {\n    pm.expect(\n        Array.isArray(response) || Array.isArray(response.children)\n    ).to.eql(true);\n});\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/children",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "children"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Создание ребёнка",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => {\n    pm.response.to.have.status(201);\n});\n\nconst response = pm.response.json();\nconst child = response.child || response;\n\npm.test(\"Поля ребёнка\", () => {\n    [\"id\", \"name\", \"birthDate\", \"createdAt\"].forEach((key) => {\n        pm.expect(child).to.have.property(key);\n    });\n\n    pm.expect(child.name).to.be.a(\"string\");\n    pm.expect(child.birthDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);\n});\n\nif (child.id) {\n    pm.collectionVariables.set(\"childId\", child.id);\n}\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "{{csrfHeader}}",
+                "value": "{{csrfToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"QA Child\",\n  \"birthDate\": \"2020-05-01\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/children",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "children"
+              ]
+            },
+            "description": "Осторожно: меняет данные.  Заполните переменные и включите запрос вручную."
+          },
+          "response": []
+        },
+        {
+          "name": "Создание — будущая дата",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => {\n    pm.response.to.have.status(400);\n});\n\nconst EXPECTED_CODE = \"VALIDATION_ERROR\";\nconst response = pm.response.json();\n\npm.test(\"Формат ошибки\", () => {\n    pm.expect(response).to.have.property(\"code\");\n    pm.expect(response.code).to.eql(EXPECTED_CODE);\n\n    pm.expect(response).to.have.property(\"message\");\n    pm.expect(response.message).to.be.a(\"string\");\n});\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "{{csrfHeader}}",
+                "value": "{{csrfToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"QA Child\",\n  \"birthDate\": \"2099-01-01\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/children",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "children"
+              ]
+            },
+            "description": "Осторожно: меняет данные. "
+          },
+          "response": []
+        },
+        {
+          "name": "Создание — пустое имя",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => {\n    pm.response.to.have.status(400);\n});\n\nconst EXPECTED_CODE = \"VALIDATION_ERROR\";\nconst response = pm.response.json();\n\npm.test(\"Формат ошибки\", () => {\n    pm.expect(response).to.have.property(\"code\");\n    pm.expect(response.code).to.eql(EXPECTED_CODE);\n\n    pm.expect(response).to.have.property(\"message\");\n    pm.expect(response.message).to.be.a(\"string\");\n});\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "{{csrfHeader}}",
+                "value": "{{csrfToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"\",\n  \"birthDate\": \"2020-05-01\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/children",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "children"
+              ]
+            },
+            "description": "Осторожно: меняет данные. "
+          },
+          "response": []
+        },
+        {
+          "name": "Получение ребёнка",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => {\n    pm.response.to.have.status(200);\n});\n\nconst response = pm.response.json();\nconst child = response.child || response;\n\npm.test(\"Поля ребёнка\", () => {\n    [\"id\", \"name\", \"birthDate\", \"createdAt\"].forEach((key) => {\n        pm.expect(child).to.have.property(key);\n    });\n\n    pm.expect(child.name).to.be.a(\"string\");\n    pm.expect(child.birthDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);\n});\n\nif (child.id) {\n    pm.collectionVariables.set(\"childId\", child.id);\n}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/children/{{childId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "children",
+                "{{childId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Изменение ребёнка",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => {\n    pm.response.to.have.status(200);\n});\n\nconst response = pm.response.json();\nconst child = response.child || response;\n\npm.test(\"Поля ребёнка\", () => {\n    [\"id\", \"name\", \"birthDate\", \"createdAt\"].forEach((key) => {\n        pm.expect(child).to.have.property(key);\n    });\n\n    pm.expect(child.name).to.be.a(\"string\");\n    pm.expect(child.birthDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);\n});\n\nif (child.id) {\n    pm.collectionVariables.set(\"childId\", child.id);\n}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "{{csrfHeader}}",
+                "value": "{{csrfToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"QA Child Updated\",\n  \"birthDate\": \"2020-05-01\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/children/{{childId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "children",
+                "{{childId}}"
+              ]
+            },
+            "description": "Осторожно: меняет данные.  Заполните переменные и включите запрос вручную."
+          },
+          "response": []
+        },
+        {
+          "name": "Несуществующий ребёнок",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => {\n    pm.response.to.have.status(404);\n});\n\nconst EXPECTED_CODE = \"NOT_FOUND\";\nconst response = pm.response.json();\n\npm.test(\"Формат ошибки\", () => {\n    pm.expect(response).to.have.property(\"code\");\n    pm.expect(response.code).to.eql(EXPECTED_CODE);\n\n    pm.expect(response).to.have.property(\"message\");\n    pm.expect(response.message).to.be.a(\"string\");\n});\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/children/999999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "children",
+                "999999999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Удаление ребёнка",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => {\n    pm.response.to.have.status(200);\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "{{csrfHeader}}",
+                "value": "{{csrfToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/children/{{childId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "children",
+                "{{childId}}"
+              ]
+            },
+            "description": "Осторожно: меняет данные.  Заполните переменные и включите запрос вручную."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://localhost:8443",
+      "type": "string"
+    },
+    {
+      "key": "email",
+      "value": "qa@example.com",
+      "type": "string"
+    },
+    {
+      "key": "password",
+      "value": "TestPass123!",
+      "type": "string"
+    },
+    {
+      "key": "fullName",
+      "value": "QA Test User",
+      "type": "string"
+    },
+    {
+      "key": "childId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "attemptId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "testType",
+      "value": "MATRIX",
+      "type": "string"
+    },
+    {
+      "key": "questionnaireVersion",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "csrfToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "csrfHeader",
+      "value": "X-CSRF-Token",
+      "type": "string"
+    }
+  ]
+}
