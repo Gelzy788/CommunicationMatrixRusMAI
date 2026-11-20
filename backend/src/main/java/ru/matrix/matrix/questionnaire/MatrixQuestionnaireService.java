@@ -3,6 +3,10 @@ package ru.matrix.matrix.questionnaire;
 import org.springframework.core.io.Resource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import ru.matrix.matrix.questionnaire.definition.QuestionCell;
+import ru.matrix.matrix.questionnaire.definition.QuestionCommunicationMatrix;
+import ru.matrix.matrix.questionnaire.definition.QuestionQuestionLevel;
+import ru.matrix.matrix.questionnaire.definition.Question;
 
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -13,7 +17,7 @@ import java.util.Map;
 
 @Service
 public class MatrixQuestionnaireService {
-    private final CommunicationMatrix communicationMatrix;
+    private final QuestionCommunicationMatrix communicationMatrix;
     private final Map<String, Question> questionById;
     private final byte[] questionsJson;
     private final String etag;
@@ -36,11 +40,11 @@ public class MatrixQuestionnaireService {
         }
     }
 
-    private static Map<String, Question> indexQuestions(CommunicationMatrix communicationMatrix) {
+    private static Map<String, Question> indexQuestions(QuestionCommunicationMatrix communicationMatrix) {
         HashMap<String, Question> questionById = new HashMap<>();
 
-        for (Level level: communicationMatrix.getLevels()) {
-            for (Cell cell : level.getCells()) {
+        for (QuestionQuestionLevel level: communicationMatrix.getLevels()) {
+            for (QuestionCell cell : level.getCells()) {
                 for (Question question : cell.getQuestions()) {
                     if (questionById.containsKey(question.getId())) {
                         throw new IllegalStateException("Question ID %s is repeated in the file"
@@ -57,7 +61,7 @@ public class MatrixQuestionnaireService {
         return questionById.containsKey(questionId);
     }
 
-    public CommunicationMatrix getCommunicationMatrix() {
+    public QuestionCommunicationMatrix getCommunicationMatrix() {
         return communicationMatrix;
     }
 
