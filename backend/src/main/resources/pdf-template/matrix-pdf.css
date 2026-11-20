@@ -1,0 +1,179 @@
+@page {
+  size: A3 landscape;
+  margin: 11mm 9mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, 'DejaVu Sans', sans-serif;
+  color: #171717;
+}
+
+.pdf-sheet {
+  width: 100%;
+  position: relative;
+}
+
+/* Таблица фиксированная: изменяются только классы состояния ячеек. */
+.matrix {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 4px 6px;
+}
+
+.matrix col.level-column {
+  width: 78px;
+}
+
+.matrix col.function-column {
+  width: auto;
+}
+
+.matrix th,
+.matrix td {
+  padding: 0;
+  text-align: center;
+  vertical-align: top;
+}
+
+.level-box {
+  height: 82px;
+  background: #707070;
+  color: white;
+  border: 1px solid #333;
+  padding: 8px 2px;
+  font-size: 8px;
+  line-height: 1.2;
+}
+
+.level-caption {
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.level-number {
+  font-size: 17px;
+  margin: 1px 0 3px;
+}
+
+.matrix td.matrix-cell {
+  height: 82px;
+  border: 1px solid #303030;
+  background-color: #fff;
+  padding: 14px 2px 3px;
+  font-size: 8px;
+  line-height: 1.12;
+  overflow-wrap: break-word;
+}
+
+.matrix-cell .cell-code {
+  font-size: 10px;
+  margin-bottom: 4px;
+  font-weight: 400;
+}
+
+.matrix-cell .cell-name {
+  padding: 0 1px;
+}
+
+/* Цвета при печати точно как на экране. */
+.matrix-cell.notused {
+  background-color: #fff;
+}
+
+.matrix-cell.emerging {
+  background-color: #ffe680;
+}
+
+.matrix-cell.mastered {
+  background-color: #ffad75;
+}
+
+.matrix-cell.surpassed {
+  background-color: #cecece;
+}
+
+.matrix-cell.unanswered {
+  background-color: #edf4fa;
+}
+
+.gap-cell {
+  border: none;
+  background: transparent;
+}
+
+.matrix-groups td {
+  height: 50px;
+  background: #707070;
+  color: #fff;
+  font-size: 11px;
+  vertical-align: middle;
+  border: 1px solid #333;
+}
+
+.matrix-groups .corner {
+  background: #707070;
+}
+
+.legend {
+  position: absolute;
+  top: 8px;
+  right: 34px;
+  width: 218px;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+.legend-row {
+  height: 31px;
+  white-space: nowrap;
+}
+
+.legend-swatch {
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  border: 1px solid #333;
+  vertical-align: middle;
+  margin-right: 12px;
+}
+
+.legend-swatch.notused {
+  background-color: #fff;
+}
+
+.legend-swatch.emerging {
+  background-color: #ffe680;
+}
+
+.legend-swatch.mastered {
+  background-color: #ffad75;
+}
+
+.legend-swatch.surpassed {
+  background-color: #cecece;
+}
+
+@media print {
+
+  html,
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .matrix,
+  .legend {
+    page-break-inside: avoid;
+  }
+}
