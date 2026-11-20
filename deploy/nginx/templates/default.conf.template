@@ -1,13 +1,3 @@
-# nginx приложения (слой 2). Одинаковый на dev и у заказчика.
-# TLS здесь нет: его делает граничный прокси (NPM на dev).
-#
-# Это шаблон: официальный образ nginx при старте подставляет сюда
-# переменные окружения ${NGINX_...} и кладёт результат в
-# /etc/nginx/conf.d/default.conf. Переменные nginx ($host и т.п.) не трогаются.
-
-# X-Forwarded-Proto: передаём то, что прислал граничный прокси (NPM -> https).
-# $scheme здесь всегда http, потому что до нас запрос идёт по HTTP.
-# Если заголовка нет (зашли напрямую на порт), берём свою схему.
 map $http_x_forwarded_proto $forwarded_proto {
     default $http_x_forwarded_proto;
     ""      $scheme;
@@ -30,41 +20,30 @@ server {
     gzip_types text/plain text/css application/javascript application/json
                application/xml image/svg+xml;
 
-    # Встроенный DNS Docker. Вместе с переменной в proxy_pass nginx
-    # переразрешает имя backend, поэтому не падает при старте,
-    # если бэк ещё не поднялся, и не теряет его после пересоздания контейнера.
     resolver 127.0.0.11 valid=10s ipv6=off;
 
-    # /api/... -> Spring. Путь передаётся целиком, вместе с /api.
     location /api/ {
         set $backend http://backend:8080;
         proxy_pass $backend;
 
         proxy_http_version 1.1;
         proxy_set_header Host              $host;
-        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;  # дополняем, а не затираем
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $forwarded_proto;
-        # Пробрасываем порт, только если его прислал внешний прокси.
-        # Пустое значение = заголовок не отправляется.
         proxy_set_header X-Forwarded-Port  $http_x_forwarded_port;
 
         proxy_read_timeout 60s;
     }
 
-    # Файлы сборки Vite с хэшем в имени: можно кэшировать навсегда.
     location /assets/ {
         add_header Cache-Control "public, max-age=31536000, immutable";
         try_files $uri =404;
     }
 
-    # index.html не кэшируем, иначе после деплоя браузер
-    # будет тянуть старые ссылки на ассеты.
     location = /index.html {
         add_header Cache-Control "no-cache";
     }
 
-    # Всё остальное — React. Неизвестный путь (/results/matrix/42)
-    # отдаём как index.html, дальше разбирается react-router.
     location / {
         try_files $uri $uri/ /index.html;
     }

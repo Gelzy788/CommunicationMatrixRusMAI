@@ -50,8 +50,6 @@ services:
     environment:
       NGINX_SERVER_NAME: ${NGINX_SERVER_NAME:-_}
       NGINX_CLIENT_MAX_BODY_SIZE: ${NGINX_CLIENT_MAX_BODY_SIZE:-10m}
-    # Единственный порт приложения, который смотрит наружу. На него проксирует NPM.
-    # Адрес и порт берутся из .env в корне (см. .env.example).
     ports:
       - "${NGINX_BIND:-127.0.0.1}:${NGINX_PORT:-8081}:80"
 
