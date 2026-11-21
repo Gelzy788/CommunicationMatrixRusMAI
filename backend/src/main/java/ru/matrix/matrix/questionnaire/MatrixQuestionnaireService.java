@@ -22,16 +22,16 @@ public class MatrixQuestionnaireService {
     private final byte[] questionsJson;
     private final String etag;
 
-    public MatrixQuestionnaireService(QuestionParser parser,
-                                      @Value("${questionnaire.questions_file}")
-                                Resource file) throws IOException {
+    public MatrixQuestionnaireService(QuestionCommunicationMatrix questionCommunicationMatrix,
+                                      @Value("${questionnaire.questions_file}") Resource file) throws IOException {
         this.questionsJson = file.getContentAsByteArray();
-        this.communicationMatrix = parser.parse(questionsJson);
+        this.communicationMatrix = questionCommunicationMatrix;
         this.questionById = Map.copyOf(indexQuestions(communicationMatrix));
         this.etag = computeEtag(questionsJson);
     }
 
     private static String computeEtag(byte[] questionsJson) {
+
         try {
             MessageDigest hasher = MessageDigest.getInstance("SHA-256");
             return HexFormat.of().formatHex(hasher.digest(questionsJson), 0, 8);

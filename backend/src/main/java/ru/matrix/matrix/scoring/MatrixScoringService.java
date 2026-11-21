@@ -1,7 +1,7 @@
 //package ru.matrix.matrix.scoring;
 //
 //import org.springframework.stereotype.Service;
-//import ru.matrix.matrix.questionnaire.answers.AttemptResult;
+//import ru.matrix.matrix.attempts.AttemptResult;
 //
 //
 //@Service

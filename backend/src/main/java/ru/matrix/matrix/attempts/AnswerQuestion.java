@@ -1,4 +1,4 @@
-package ru.matrix.matrix.questionnaire.answers;
+package ru.matrix.matrix.attempts;
 
 import ru.matrix.matrix.questionnaire.SkillAnswer;
 

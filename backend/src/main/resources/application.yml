@@ -32,3 +32,6 @@ spring:
 
 questionnaire:
   questions_file: "classpath:QuestionsData.json"
+
+attempts:
+  commentLimit: 1000
