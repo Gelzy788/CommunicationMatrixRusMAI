@@ -1,4 +1,4 @@
-package ru.matrix.matrix.questionnaire;
+package ru.matrix.matrix.scoring;
 
 public enum CellStatus {
     NOT_USED,

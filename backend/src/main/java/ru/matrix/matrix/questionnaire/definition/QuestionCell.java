@@ -1,9 +1,9 @@
-package ru.matrix.matrix.questionnaire;
+package ru.matrix.matrix.questionnaire.definition;
 
 import java.util.List;
 
 
-public class Cell {
+public class QuestionCell {
     private String id;
     private String name;
     private List<Question> questions;

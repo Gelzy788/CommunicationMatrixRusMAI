@@ -1,14 +1,14 @@
-package ru.matrix.matrix.questionnaire;
+package ru.matrix.matrix.questionnaire.definition;
 
 import java.util.List;
 
-public class Level {
+public class QuestionQuestionLevel {
     private String id;
     private String name;
     private String entryQuestionId;
-    private List<Cell> cells;
+    private List<QuestionCell> cells;
 
-    public Level() {
+    public QuestionQuestionLevel() {
     }
 
     public String getId() {
@@ -35,11 +35,11 @@ public class Level {
         this.entryQuestionId = entryQuestionId;
     }
 
-    public List<Cell> getCells() {
+    public List<QuestionCell> getCells() {
         return cells;
     }
 
-    public void setCells(List<Cell> cells) {
+    public void setCells(List<QuestionCell> cells) {
         this.cells = cells;
     }
 }

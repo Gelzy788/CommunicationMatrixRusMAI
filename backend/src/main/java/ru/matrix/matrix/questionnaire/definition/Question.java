@@ -1,4 +1,4 @@
-package ru.matrix.matrix.questionnaire;
+package ru.matrix.matrix.questionnaire.definition;
 
 public class Question {
     private String id;

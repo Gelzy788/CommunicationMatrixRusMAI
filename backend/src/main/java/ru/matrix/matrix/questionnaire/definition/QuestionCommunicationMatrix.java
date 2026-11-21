@@ -1,10 +1,10 @@
-package ru.matrix.matrix.questionnaire;
+package ru.matrix.matrix.questionnaire.definition;
 
 import java.util.List;
 
-public class CommunicationMatrix {
+public class QuestionCommunicationMatrix {
     private String version;
-    private List<Level> levels;
+    private List<QuestionQuestionLevel> levels;
 
     public String getVersion() {
         return version;
@@ -14,11 +14,11 @@ public class CommunicationMatrix {
         this.version = version;
     }
 
-    public List<Level> getLevels() {
+    public List<QuestionQuestionLevel> getLevels() {
         return levels;
     }
 
-    public void setLevels(List<Level> levels) {
+    public void setLevels(List<QuestionQuestionLevel> levels) {
         this.levels = levels;
     }
 }
