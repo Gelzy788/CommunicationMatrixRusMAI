@@ -21,7 +21,7 @@ CREATE TABLE tests_results(
     test_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     child_id BIGINT NOT NULL
         REFERENCES users_children(child_id) ON DELETE CASCADE,
-    test_type VARCHAR(10) NOT NULL
+    test_type VARCHAR(30) NOT NULL
         CHECK (test_type IN ('matrix', 'sensor')),
     test_result JSONB NOT NULL,
     test_completed_at TIMESTAMPTZ NOT NULL
