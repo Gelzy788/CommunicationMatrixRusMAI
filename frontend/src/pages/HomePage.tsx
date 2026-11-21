@@ -51,10 +51,8 @@ export function HomePage() {
           </p>
         </div>
 
-        <div className="relative flex flex-col items-center gap-4 rounded-xl bg-secondary p-4 ring-1 ring-border lg:h-104 lg:w-147 lg:shrink-0 lg:flex-row lg:justify-end lg:py-2 lg:pr-8 lg:pl-0">
-          <img src={heroIllustration} alt="" width={268} height={400} />
-
-          <div className="flex w-full flex-col gap-3 rounded-xl bg-card p-5 ring-1 ring-border lg:absolute lg:bottom-22 lg:left-4 lg:w-64">
+        <div className="relative flex flex-row items-center justify-between gap-4 rounded-xl bg-secondary p-4 ring-1 ring-border lg:h-104 lg:w-147 lg:shrink-0 lg:flex-row lg:justify-end lg:py-2 lg:pr-8 lg:pl-0">
+          <div className="z-10 flex flex-1 flex-col gap-3 lg:absolute lg:bottom-22 lg:left-4 lg:w-64 lg:rounded-xl lg:bg-card lg:p-5 lg:ring-1 lg:ring-border">
             <div className="flex flex-col gap-1">
               <p className="text-body font-medium text-foreground">Каждый шаг важен</p>
               <p className="text-small text-muted-foreground">
@@ -62,7 +60,7 @@ export function HomePage() {
               </p>
             </div>
 
-            <div className="flex gap-2" aria-hidden="true">
+            <div className="hidden lg:flex lg:flex-wrap lg:gap-2" aria-hidden="true">
               {previewSteps.map((done, index) => (
                 <span
                   key={index}
@@ -81,6 +79,14 @@ export function HomePage() {
               ))}
             </div>
           </div>
+
+          <img
+            src={heroIllustration}
+            alt=""
+            width={268}
+            height={400}
+            className="w-[45%] max-w-40 shrink-0 object-contain lg:w-auto lg:max-w-none"
+          />
         </div>
       </section>
 
