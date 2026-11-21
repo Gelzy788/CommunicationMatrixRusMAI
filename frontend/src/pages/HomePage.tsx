@@ -39,11 +39,7 @@ export function HomePage() {
             Замечайте маленькие шаги в развитии ребёнка. Матрица коммуникаций и сенсорный профиль —
             в одном спокойном пространстве.
           </p>
-          <Button
-            className="w-full lg:w-59"
-            nativeButton={false}
-            render={<Link to="/tests/matrix" />}
-          >
+          <Button className="w-full lg:w-59" nativeButton={false} render={<Link to="/tests" />}>
             Начать тестирование
           </Button>
           <p className="text-small text-muted-foreground">
