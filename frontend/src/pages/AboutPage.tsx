@@ -10,11 +10,11 @@ type TeamMember = {
 }
 
 const team: TeamMember[] = [
-  { name: 'Негм Али Абделазизович', role: 'Team Lead and Backend developer', photo: '' },
-  { name: 'Королев Лев Игоревич', role: 'Backend developer', photo: '' },
-  { name: 'Кривцов Ярослав Олегович', role: 'Backend developer', photo: '' },
-  { name: 'Кузмичев Даниил Евгеньевич', role: 'Frontend developer', photo: '' },
-  { name: 'Ханукаев Максим Спартакович', role: 'Frontend developer', photo: '' },
+  { name: 'Негм Али Абделазизович', role: 'Team Lead and Backend developer' },
+  { name: 'Королев Лев Игоревич', role: 'Backend developer' },
+  { name: 'Кривцов Ярослав Олегович', role: 'Backend developer' },
+  { name: 'Кузмичев Даниил Евгеньевич', role: 'Frontend developer' },
+  { name: 'Ханукаев Максим Спартакович', role: 'Frontend developer' },
 ]
 
 function Avatar({ member }: { member: TeamMember }) {
