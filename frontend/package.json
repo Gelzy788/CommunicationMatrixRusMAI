@@ -10,7 +10,8 @@
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",
     "format": "prettier . --write",
-    "format:check": "prettier . --check"
+    "format:check": "prettier . --check",
+    "check": "pnpm lint && pnpm format:check && pnpm build"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
