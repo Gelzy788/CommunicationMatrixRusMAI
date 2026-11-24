@@ -2,6 +2,7 @@ package ru.matrix.matrix.attempts;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import ru.matrix.matrix.attempts.answer.AttemptResult;
 import ru.matrix.matrix.common.ApiException;
 import ru.matrix.matrix.common.ErrorCode;
 import ru.matrix.matrix.questionnaire.definition.QuestionCommunicationMatrix;

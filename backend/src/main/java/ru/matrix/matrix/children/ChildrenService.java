@@ -43,6 +43,7 @@ public class ChildrenService {
 
     @Transactional
     public void deleteChild(Long parentId, Long childId) {
+        // TODO: Сделать удаление его прохождений из БД
         childRepository.delete(findChildById(parentId, childId));
     }
 

@@ -1,4 +1,4 @@
-package ru.matrix.matrix.attempts;
+package ru.matrix.matrix.attempts.answer;
 
 import java.util.List;
 

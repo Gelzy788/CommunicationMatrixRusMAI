@@ -26,7 +26,7 @@ public class AttemptEntity {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "test_result", columnDefinition = "jsonb")
-    private Map<String, Object> testResult;
+    private AttemptResultJson testResult;
 
     @Column(name = "test_completed_at")
     private OffsetDateTime completedAt;
@@ -35,7 +35,7 @@ public class AttemptEntity {
     }
 
     public AttemptEntity(long childId, TestType testType,
-                         Map<String, Object> testResult, OffsetDateTime completedAt) {
+                         AttemptResultJson testResult, OffsetDateTime completedAt) {
         this.childId = childId;
         this.testType = testType;
         this.testResult = testResult;

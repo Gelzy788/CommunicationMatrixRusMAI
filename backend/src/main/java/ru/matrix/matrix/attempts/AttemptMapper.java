@@ -1,8 +1,11 @@
 package ru.matrix.matrix.attempts;
 
 import org.springframework.stereotype.Component;
-import ru.matrix.matrix.attempts.AttemptRequest;
 import ru.matrix.matrix.attempts.AttemptRequest.LevelRequest;
+import ru.matrix.matrix.attempts.answer.AnswerCell;
+import ru.matrix.matrix.attempts.answer.AnswerLevel;
+import ru.matrix.matrix.attempts.answer.AnswerQuestion;
+import ru.matrix.matrix.attempts.answer.AttemptResult;
 import ru.matrix.matrix.common.ApiException;
 import ru.matrix.matrix.common.ErrorCode;
 import ru.matrix.matrix.questionnaire.AnswerStage;
