@@ -38,11 +38,15 @@ jobs:
         env:
           API_BASE_URL: ${{ vars.API_BASE_URL }}
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+          TEST_ATTEMPT_ID: ${{ vars.TEST_ATTEMPT_ID }}
         shell: bash
         run: |
-          newman run backend/postman-tests/api-tests-ci.json \
+          newman run backend/postman-tests/api-tests.json \
             --env-var "baseUrl=$API_BASE_URL" \
             --env-var "password=$TEST_PASSWORD" \
+            --env-var "attemptId=$TEST_ATTEMPT_ID" \
+            --env-var "allowMutations=false" \
+            --env-var "allowSend=false" \
             --reporters cli,junit \
             --reporter-junit-export newman-results.xml \
             --timeout-request 15000

@@ -859,58 +859,427 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "03 Attempts",
+      "item": [
+        {
+          "name": "Список прохождений",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "if (!pm.variables.get(\"childId\")) {\n    throw new Error(\"Укажите ID тестового объекта\");\n}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => {\n    pm.response.to.have.status(200);\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/children/{{childId}}/attempts?testType=MATRIX",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "children",
+                "{{childId}}",
+                "attempts"
+              ],
+              "query": [
+                {
+                  "key": "testType",
+                  "value": "MATRIX"
+                }
+              ]
+            },
+            "description": "Статус предварительный. Использовать только тестовый стенд и тестовые данные."
+          },
+          "response": []
+        },
+        {
+          "name": "Получение прохождения",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "if (!pm.variables.get(\"attemptId\")) {\n    throw new Error(\"Укажите ID тестового объекта\");\n}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => {\n    pm.response.to.have.status(200);\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/attempts/{{attemptId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "attempts",
+                "{{attemptId}}"
+              ]
+            },
+            "description": "Статус предварительный. Использовать только тестовый стенд и тестовые данные."
+          },
+          "response": []
+        },
+        {
+          "name": "Получение PDF",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "if (!pm.variables.get(\"attemptId\")) {\n    throw new Error(\"Укажите ID тестового объекта\");\n}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => {\n    pm.response.to.have.status(200);\n});\n\npm.test(\"Формат PDF\", () => {\n    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/pdf\");\n});\npm.test(\"Сигнатура PDF\", () => {\n    pm.expect(pm.response.text()).to.match(/^%PDF-/);\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/pdf"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/attempts/{{attemptId}}/pdf",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "attempts",
+                "{{attemptId}}",
+                "pdf"
+              ]
+            },
+            "description": "Статус предварительный. Использовать только тестовый стенд и тестовые данные."
+          },
+          "response": []
+        },
+        {
+          "name": "Отправка результатов",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "if (!pm.variables.get(\"attemptId\")) {\n    throw new Error(\"Укажите ID тестового объекта\");\n}\nif (pm.variables.get(\"allowMutations\") !== \"true\") {\n    pm.execution.skipRequest();\n}\nif (pm.variables.get(\"allowSend\") !== \"true\" || !pm.variables.get(\"sendBody\")) {\n    pm.execution.skipRequest();\n}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => {\n    pm.response.to.have.status(200);\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "{{csrfHeader}}",
+                "value": "{{csrfToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{{sendBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/attempts/{{attemptId}}/send",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "attempts",
+                "{{attemptId}}",
+                "send"
+              ]
+            },
+            "description": "Статус предварительный. Использовать только тестовый стенд и тестовые данные."
+          },
+          "response": []
+        },
+        {
+          "name": "Удаление прохождения",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "if (!pm.variables.get(\"attemptId\")) {\n    throw new Error(\"Укажите ID тестового объекта\");\n}\nif (pm.variables.get(\"allowMutations\") !== \"true\") {\n    pm.execution.skipRequest();\n}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => {\n    pm.response.to.have.status(200);\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "{{csrfHeader}}",
+                "value": "{{csrfToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/attempts/{{attemptId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "attempts",
+                "{{attemptId}}"
+              ]
+            },
+            "description": "Статус предварительный. Использовать только тестовый стенд и тестовые данные."
+          },
+          "response": []
+        },
+        {
+          "name": "Получение удалённого прохождения",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "if (!pm.variables.get(\"attemptId\")) {\n    throw new Error(\"Укажите ID тестового объекта\");\n}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => {\n    pm.response.to.have.status(404);\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/attempts/{{attemptId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "attempts",
+                "{{attemptId}}"
+              ]
+            },
+            "description": "Статус предварительный. Использовать только тестовый стенд и тестовые данные."
+          },
+          "response": []
+        },
+        {
+          "name": "PDF удалённого прохождения",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "if (!pm.variables.get(\"attemptId\")) {\n    throw new Error(\"Укажите ID тестового объекта\");\n}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => {\n    pm.response.to.have.status(404);\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/attempts/{{attemptId}}/pdf",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "attempts",
+                "{{attemptId}}",
+                "pdf"
+              ]
+            },
+            "description": "Статус предварительный. Использовать только тестовый стенд и тестовые данные."
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "variable": [
     {
       "key": "baseUrl",
-      "value": "https://localhost:8443",
-      "type": "string"
+      "value": "https://localhost:8443"
     },
     {
       "key": "email",
-      "value": "qa@example.com",
-      "type": "string"
+      "value": "qa@example.com"
     },
     {
       "key": "password",
-      "value": "TestPass123!",
-      "type": "string"
+      "value": "TestPass123!"
     },
     {
       "key": "fullName",
-      "value": "QA Test User",
-      "type": "string"
+      "value": "QA Test User"
     },
     {
       "key": "childId",
-      "value": "",
-      "type": "string"
+      "value": ""
     },
     {
       "key": "attemptId",
-      "value": "",
-      "type": "string"
+      "value": ""
     },
     {
       "key": "testType",
-      "value": "MATRIX",
-      "type": "string"
+      "value": "MATRIX"
     },
     {
       "key": "questionnaireVersion",
-      "value": "",
-      "type": "string"
+      "value": ""
     },
     {
       "key": "csrfToken",
-      "value": "",
-      "type": "string"
+      "value": ""
     },
     {
       "key": "csrfHeader",
-      "value": "X-CSRF-Token",
-      "type": "string"
+      "value": "X-CSRF-Token"
     }
   ]
 }
