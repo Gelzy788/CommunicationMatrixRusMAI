@@ -37,25 +37,48 @@ public class AttemptsService {
     public void saveChildAttempt(Long childId, Long parentId,
                                  TestType testType, AttemptResult result) {
         if (testType == TestType.COMMUNICATION_MATRIX) {
-            // Does the child belong to the user
-            childRepository.findByChildIdAndParentId(childId, parentId)
-                    .orElseThrow(() -> new ApiException(ErrorCode.NOT_FOUND));
+            checkChildOwner(childId, parentId);
 
-            // All of the child's previous responses
-            List<AttemptEntity> allChildAttempts =
-                    attemptRepository.findAllByChildIdAndUserId(childId, parentId);
-
-            if (allChildAttempts.size() >= ATTEMPTS_LIMIT) {      // Delete the oldest attempt
+            // The limit is per test type: delete the oldest attempt of this type
+            if (attemptRepository.countByChildIdAndTestType(childId, testType) >= ATTEMPTS_LIMIT) {
                 attemptRepository
-                        .findFirstByChildIdOrderByCompletedAtAsc(childId)
+                        .findFirstByChildIdAndTestTypeOrderByCompletedAtAsc(childId, testType)
                         .ifPresent(attemptRepository::delete);
-
             }
             AttemptEntity newAttempt = new AttemptEntity(childId, testType,
                     attemptJsonMapper.toJson(result),
                     OffsetDateTime.now(clock));
             attemptRepository.save(newAttempt);
-
         }
+    }
+
+    // Newest first: the frontend takes the first one as the latest attempt
+    public List<AttemptSummaryResponse> getAttempts(Long childId, Long parentId, TestType testType) {
+        checkChildOwner(childId, parentId);
+        return attemptRepository.findByChildIdAndTestTypeOrderByCompletedAtDesc(childId, testType)
+                .stream()
+                .map(AttemptSummaryResponse::from)
+                .toList();
+    }
+
+    public AttemptResponse getAttempt(Long attemptId, Long parentId) {
+        return AttemptResponse.from(findAttempt(attemptId, parentId));
+    }
+
+    @Transactional
+    public void deleteAttempt(Long attemptId, Long parentId) {
+        attemptRepository.delete(findAttempt(attemptId, parentId));
+    }
+
+    // Someone else's attempt looks the same as a missing one: 404
+    private AttemptEntity findAttempt(Long attemptId, Long parentId) {
+        return attemptRepository.findByIdAndParentId(attemptId, parentId)
+                .orElseThrow(() -> new ApiException(ErrorCode.NOT_FOUND));
+    }
+
+    // Does the child belong to the user
+    private void checkChildOwner(Long childId, Long parentId) {
+        childRepository.findByChildIdAndParentId(childId, parentId)
+                .orElseThrow(() -> new ApiException(ErrorCode.NOT_FOUND));
     }
 }

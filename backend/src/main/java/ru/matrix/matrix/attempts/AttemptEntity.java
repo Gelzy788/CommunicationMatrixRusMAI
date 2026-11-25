@@ -6,7 +6,6 @@ import org.hibernate.type.SqlTypes;
 import ru.matrix.matrix.questionnaire.TestType;
 
 import java.time.OffsetDateTime;
-import java.util.Map;
 
 @Entity
 @Table(name = "tests_results")
@@ -17,7 +16,7 @@ public class AttemptEntity {
     @Column(name = "test_id")
     private Long id;
 
-    @JoinColumn(name = "child_id", nullable = false)
+    @Column(name = "child_id", nullable = false)
     private long childId;
 
     @Enumerated(EnumType.STRING)
@@ -25,11 +24,14 @@ public class AttemptEntity {
     private TestType testType;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "test_result", columnDefinition = "jsonb")
+    @Column(name = "test_result", columnDefinition = "jsonb", nullable = false)
     private AttemptResultJson testResult;
 
-    @Column(name = "test_completed_at")
+    @Column(name = "test_completed_at", nullable = false)
     private OffsetDateTime completedAt;
+
+    @Column(name = "sent_to_center_at")
+    private OffsetDateTime sentToCenterAt;
 
     protected AttemptEntity() {
     }
@@ -48,7 +50,9 @@ public class AttemptEntity {
 
     public TestType getTestType() { return testType; }
 
-    public Map<String, Object> getTestResult() { return testResult; }
+    public AttemptResultJson getTestResult() { return testResult; }
 
     public OffsetDateTime getCompletedAt() { return completedAt; }
+
+    public OffsetDateTime getSentToCenterAt() { return sentToCenterAt; }
 }
