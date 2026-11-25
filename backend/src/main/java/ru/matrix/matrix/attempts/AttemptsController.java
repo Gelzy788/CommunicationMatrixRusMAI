@@ -24,8 +24,8 @@ public class AttemptsController {
         this.matrixAttemptValidator = matrixAttemptValidator;
     }
 
-    // TODO: by the contract, respond 201 + Attempt (with cell statuses)
     @PostMapping("/children/{childId}/attempts")
+    @ResponseStatus(HttpStatus.CREATED)
     public void saveChildAttempt(@PathVariable Long childId, @RequestParam TestType testType,
                                  @AuthenticationPrincipal AuthUser user,
                                  @RequestBody AttemptRequest request) {
