@@ -1,0 +1,132 @@
+name: smoke-test-CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  #Smoke-test
+  smoke-test:
+    name: Backend smoke tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    # PostgreSQL для запуска Spring Boot и Flyway
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: matrix_users_database
+          POSTGRES_USER: matrix_user
+          POSTGRES_PASSWORD: ci_test_password
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U matrix_user -d matrix_users_database"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    # Переменные для подключения backend к PostgreSQL
+    env:
+      POSTGRES_IP: localhost
+      POSTGRES_PORT: 5433
+      POSTGRES_DB: matrix_users_database
+      POSTGRES_USER: matrix_user
+      POSTGRES_PASSWORD: ci_test_password
+
+    steps:
+      # 1. Получение исходного кода
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Проверка, что файлы окружения не попали в Git
+      - name: Check for exposed environment files
+        shell: bash
+        run: |
+          if git ls-files | grep -E '(^|/)\.env($|\.)' | grep -vE '(^|/)\.env\.example$'; then
+            echo "ERROR: Environment files must not be committed!"
+            exit 1
+          fi
+
+          echo "No exposed environment files found."
+
+      # 3. Установка Java 21
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      # 4. Запуск smoke-теста
+      - name: Run smoke tests
+        working-directory: backend
+        run: bash ./mvnw -B -Dtest=SmokeTest test
+  #Пакет тестов Postman
+  contract-tests:
+    name: Postman API tests
+    runs-on: ubuntu-latest
+    needs: smoke-test
+    timeout-minutes: 10
+
+    # Запускаем только при включённой настройке.
+    # Не запускаем на Pull Request из чужого репозитория,
+    # где environment недоступны.
+    if: >-
+      ${{
+        vars.ENABLE_CONTRACT_TESTS == 'true' &&
+        (
+          github.event_name != 'pull_request' ||
+          github.event.pull_request.head.repo.full_name == github.repository
+        )
+      }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate isolated HTTPS test endpoint
+        env:
+          API_BASE_URL: ${{ vars.API_BASE_URL }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+        shell: bash
+        run: |
+          if [[ ! "$API_BASE_URL" =~ ^https://[^/]+ ]]; then
+            echo "API_BASE_URL must be an HTTPS URL" >&2
+            exit 1
+          fi
+
+          if [[ -z "$TEST_PASSWORD" ]]; then
+            echo "TEST_PASSWORD secret is required" >&2
+            exit 1
+          fi
+
+          echo "Using isolated test endpoint."
+
+      - name: Install Newman
+        run: npm install --global newman
+
+      - name: Execute Postman collection
+        env:
+          API_BASE_URL: ${{ vars.API_BASE_URL }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+        run: |
+          newman run backend/postman-tests/api-tests-ci.json \
+            --env-var "baseUrl=$API_BASE_URL" \
+            --env-var "password=$TEST_PASSWORD" \
+            --reporters cli,junit \
+            --reporter-junit-export newman-results.xml \
+            --timeout-request 15000
+
+      - name: Upload Newman test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-junit-results
+          path: newman-results.xml
+          if-no-files-found: ignore
