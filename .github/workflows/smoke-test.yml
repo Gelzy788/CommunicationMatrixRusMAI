@@ -67,6 +67,7 @@ jobs:
       - name: Run smoke tests
         working-directory: backend
         run: bash ./mvnw -B -Dtest=SmokeTest test
+        
   #Пакет тестов Postman
   contract-tests:
     name: Postman API tests
