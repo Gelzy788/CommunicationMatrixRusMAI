@@ -112,7 +112,7 @@ jobs:
           API_BASE_URL: ${{ vars.API_BASE_URL }}
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
         run: |
-          newman run backend/postman-tests/api-tests-ci.json \
+          newman run backend/postman-tests/api-tests.json \
             --env-var "baseUrl=$API_BASE_URL" \
             --env-var "password=$TEST_PASSWORD" \
             --reporters cli,junit \
