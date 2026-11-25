@@ -74,16 +74,12 @@ jobs:
     needs: smoke-test
     timeout-minutes: 10
 
-    # Запускаем только при включённой настройке.
     # Не запускаем на Pull Request из чужого репозитория,
     # где environment недоступны.
     if: >-
       ${{
-        vars.ENABLE_CONTRACT_TESTS == 'true' &&
-        (
-          github.event_name != 'pull_request' ||
-          github.event.pull_request.head.repo.full_name == github.repository
-        )
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name == github.repository
       }}
 
     steps:
