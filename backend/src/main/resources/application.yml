@@ -41,7 +41,7 @@ spring:
 
   session:
     jdbc:
-      initialize-schema: always
+      initialize-schema: never
     timeout: 30m
 
 questionnaire:
