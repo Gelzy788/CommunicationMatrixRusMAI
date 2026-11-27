@@ -8,6 +8,11 @@ public enum SkillAnswer {
     EMERGING("emerging", "На стадии становления", 1),
     MASTERED("mastered", "Усвоено", 2);
 
+    private static final int MAX_POINTS = Arrays.stream(values())
+            .mapToInt(SkillAnswer::getPoints)
+            .max()
+            .orElse(0);
+
     private final String code;
     private final String value;
     private final int point;
@@ -35,5 +40,9 @@ public enum SkillAnswer {
         return Arrays.stream(values())
                 .filter(answer -> answer.code.equals(code))
                 .findFirst();
+    }
+
+    public static int getMaxPoints() {
+        return MAX_POINTS;
     }
 }

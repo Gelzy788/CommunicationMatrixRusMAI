@@ -3,8 +3,8 @@ package ru.matrix.matrix.scoring;
 import java.util.List;
 
 
-public record CommunicationMatrixResult(List<CellResult> cells) {
+public record CommunicationMatrixResult(String questionnaireVersion, List<LevelResult> levels) {
     public CommunicationMatrixResult {
-        cells = List.copyOf(cells);
+        levels = List.copyOf(levels);
     }
 }

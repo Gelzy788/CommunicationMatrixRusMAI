@@ -2,7 +2,6 @@ package ru.matrix.matrix.attempts.answer;
 
 import java.util.List;
 
-// Ответы на вопросы одной ячейки + комментарий родителя
 public class AnswerCell {
     private final String id;
     private final List<AnswerQuestion> questionList;
